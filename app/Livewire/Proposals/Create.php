@@ -3,6 +3,7 @@
 namespace App\Livewire\Proposals;
 use App\Models\Project;
 use Livewire\Component;
+use Livewire\Attributes\Rule;
 
 class Create extends Component
 {
@@ -11,16 +12,22 @@ class Create extends Component
 
     public bool $modal = true;
 
+    #[Rule(['required', 'email'])]
     public string $email = '';
+
+    #[Rule(['required', 'numeric', 'gt:0'])]
     public int $hours = 0;
 
     public function save()
     {
+
+        $this->validate();
+
         $this->project->proposals()
-            ->create([
-                'email' => $this->email,
-                'hours' => $this->hours
-            ]);
+            ->updateOrCreate(
+                ['email' => $this->email],
+                ['hours' => $this->hours]
+            );
     }
 
     public function render()
