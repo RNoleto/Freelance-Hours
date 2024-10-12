@@ -8,6 +8,7 @@ use App\Models\Proposal;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\Attributes\Rule;
+use App\Notifications\NewProposal;
 use App\Notifications\PerdeuMane;
 
 class Create extends Component
@@ -43,7 +44,7 @@ class Create extends Component
             $this->arrangePositions($proposal);
         });
 
-        $this->propoproject->author->notify(new NewProposal($this->project));
+        $this->project->author->notify(new NewProposal($this->project));
 
         $this->dispatch('proposal::created');
         
